@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}">
+<head>
+    <title>Manage Suppliers</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Supplier Management</h2>
+            <div>
+                <a th:href="@{/suppliers/register}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Supplier</a>
+            </div>
+        </div>
+
+        <!-- Search Form -->
+        <div class="card mb-4 p-3 bg-light">
+            <form th:action="@{/suppliers}" method="get" class="d-flex">
+                <input class="form-control me-2" type="search" name="search" th:value="${searchQuery}" placeholder="Search by name or brand...">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+                <a th:if="${searchQuery != null}" th:href="@{/suppliers}" class="btn btn-outline-secondary ms-2">Clear</a>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover bg-white rounded shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Supplier Name</th>
+                        <th>Contact</th>
+                        <th>Brands</th>
+                        <th>Type</th>
+                        <th>Est. Delivery Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="supplier : ${suppliers}">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img th:src="${supplier.getImageUrl()}" 
+                                     alt="Logo" 
+                                     class="rounded border me-2 flex-shrink-0"
+                                     style="width: 40px; height: 40px; object-fit: cover;"
+                                     onerror="this.src='/images/placeholder-supplier.svg'">
+                                <span class="fw-bold" th:text="${supplier.name}"></span>
+                            </div>
+                        </td>
+                        <td th:text="${supplier.contact}"></td>
+                        <td th:text="${supplier.brandsSupplied}"></td>
+                        <td>
+                            <span class="badge" th:classappend="${supplier.type == 'LOCAL' ? 'bg-success' : 'bg-info text-dark'}" th:text="${supplier.type}"></span>
+                        </td>
+                        <td th:text="${supplier.getDeliveryTimeEstimate()}"></td>
+                        <td>
+                            <a th:href="@{/suppliers/edit/{id}(id=${supplier.id})}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <form th:action="@{/suppliers/delete/{id}(id=${supplier.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete this supplier?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(suppliers)}">
+                        <td colspan="6" class="text-center py-3">No suppliers found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

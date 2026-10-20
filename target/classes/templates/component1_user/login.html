@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}">
+<head>
+    <title>Login - ToysLanka</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row justify-content-center py-4">
+            <div class="col-md-6 col-lg-5">
+                <div class="card p-4 p-md-5 shadow-sm border-0" style="border: 3px solid #FFE29A !important;">
+                    <div class="text-center mb-4">
+                        <div class="fs-1 mb-2">🧸🎈</div>
+                        <h2 class="fw-bold text-dark">Welcome Back!</h2>
+                        <p class="text-secondary fw-semibold">Login to your ToysLanka account</p>
+                    </div>
+                    <form th:action="@{/users/login}" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-bold"><i class="fa-solid fa-user me-1 text-primary"></i> Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-bold"><i class="fa-solid fa-lock me-1 text-primary"></i> Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fs-5">
+                                <i class="fa-solid fa-rocket me-2"></i> Log In
+                            </button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="text-secondary fw-semibold mb-0">Don't have an account yet? <a th:href="@{/users/register}" class="fw-bold text-primary text-decoration-none">Create one free 🎉</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

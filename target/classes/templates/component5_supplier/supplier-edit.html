@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}">
+<head>
+    <title>Edit Supplier</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <h3 class="mb-4">Edit Supplier: <span class="text-primary" th:text="${supplier.name}"></span></h3>
+                    <form th:action="@{/suppliers/edit/{id}(id=${supplier.id})}" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Current Logo</label>
+                            <div class="mb-2">
+                                <img th:src="${supplier.getImageUrl()}" 
+                                     alt="Supplier Logo" 
+                                     class="rounded border shadow-sm"
+                                     style="height: 100px; width: 140px; object-fit: cover;"
+                                     onerror="this.src='/images/placeholder-supplier.svg'">
+                            </div>
+                            <label class="form-label fw-bold">Replace Logo <span class="text-muted fw-normal">(Optional &mdash; JPG, PNG, WEBP, max 5MB)</span></label>
+                            <input type="file" class="form-control" name="image" accept=".jpg,.jpeg,.png,.webp">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Type</label>
+                            <input type="text" class="form-control" th:value="${supplier.type}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Contact Details</label>
+                            <input type="text" class="form-control" name="contact" th:value="${supplier.contact}" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Brands Supplied</label>
+                            <input type="text" class="form-control" name="brands" th:value="${supplier.brandsSupplied}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Supplier</button>
+                        <a th:href="@{/suppliers}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

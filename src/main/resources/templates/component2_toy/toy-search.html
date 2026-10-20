@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}">
+<head>
+    <title>Find Your Toy - ToysLanka</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row justify-content-center py-5">
+            <div class="col-md-9 col-lg-7 text-center">
+                <div class="display-3 mb-3">🔍🧸✨</div>
+                <h1 class="display-5 fw-bold mb-3">
+                    <span class="pop-title">Find Your Dream Toy!</span>
+                </h1>
+                <p class="text-secondary fs-5 fw-semibold mb-4">
+                    Type a toy name, favorite brand (LEGO, Barbie, Fisher-Price), or category (STEM, robots, plushies)!
+                </p>
+
+                <div class="card p-4 shadow-sm border-0 mb-4" style="border: 3px solid #FFE29A !important;">
+                    <form th:action="@{/toys}" method="get" class="d-flex gap-2">
+                        <input class="form-control form-control-lg fs-5" 
+                               type="search" 
+                               name="search" 
+                               placeholder="e.g. Robot, Teddy, LEGO, Wooden..." 
+                               aria-label="Search toys" 
+                               autofocus>
+                        <button class="btn btn-primary btn-lg px-4 fs-5" type="submit">
+                            <i class="fa-solid fa-magnifying-glass me-1"></i> Search
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Popular search tags -->
+                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
+                    <span class="small fw-bold text-muted me-1">Try Searching:</span>
+                    <a th:href="@{/toys(search='Robot')}" class="badge bg-white text-dark border p-2 rounded-pill text-decoration-none shadow-sm">🤖 Robot</a>
+                    <a th:href="@{/toys(search='Teddy')}" class="badge bg-white text-dark border p-2 rounded-pill text-decoration-none shadow-sm">🧸 Teddy</a>
+                    <a th:href="@{/toys(search='Blocks')}" class="badge bg-white text-dark border p-2 rounded-pill text-decoration-none shadow-sm">🪵 Wooden Blocks</a>
+                    <a th:href="@{/toys(search='Puzzle')}" class="badge bg-white text-dark border p-2 rounded-pill text-decoration-none shadow-sm">🧩 Puzzles</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

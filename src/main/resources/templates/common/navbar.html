@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <span class="fs-3 me-2 floating-toy">🧸</span>
+                <span>
+                    <span class="logo-t">T</span><span class="logo-o">o</span><span class="logo-y">y</span><span class="logo-s">s</span><span class="logo-lanka">Lanka</span>
+                </span>
+                <span class="badge bg-warning text-dark fs-6 ms-2 px-2 py-1 rounded-pill d-none d-sm-inline-block">🎪 Joy Store</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/toys}">
+                            <i class="fa-solid fa-rocket text-danger me-1"></i> Explore Toys
+                        </a>
+                    </li>
+                    <!-- Admin Links -->
+                    <li class="nav-item dropdown" th:if="${session.userRole == 'ADMIN'}">
+                        <a class="nav-link dropdown-toggle text-purple fw-bold" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-screwdriver-wrench text-warning me-1"></i> Admin Hub
+                        </a>
+                        <ul class="dropdown-menu shadow-sm rounded-4 border-0">
+                            <li><a class="dropdown-item py-2" th:href="@{/admin/dashboard}"><i class="fa-solid fa-chart-pie text-primary me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item py-2" th:href="@{/users}"><i class="fa-solid fa-users text-success me-2"></i>Manage Users</a></li>
+                            <li><a class="dropdown-item py-2" th:href="@{/toys/add}"><i class="fa-solid fa-plus-circle text-danger me-2"></i>Add Toy</a></li>
+                            <li><a class="dropdown-item py-2" th:href="@{/suppliers}"><i class="fa-solid fa-truck-ramp-box text-warning me-2"></i>Manage Suppliers</a></li>
+                            <li><a class="dropdown-item py-2" th:href="@{/admin/list}"><i class="fa-solid fa-user-shield text-info me-2"></i>Manage Admins</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav align-items-center">
+                    <!-- Guest Links -->
+                    <th:block th:if="${session.loggedInUserId == null}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/users/login}">
+                                <i class="fa-solid fa-arrow-right-to-bracket text-primary me-1"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-primary" th:href="@{/users/register}">
+                                <i class="fa-solid fa-star text-warning me-1"></i> Join ToysLanka
+                            </a>
+                        </li>
+                    </th:block>
+                    
+                    <!-- Customer Links -->
+                    <th:block th:if="${session.userRole == 'REGULAR' || session.userRole == 'PREMIUM'}">
+                        <li class="nav-item me-2">
+                            <a class="nav-link bg-light px-3 py-2 rounded-pill" th:href="@{/orders/cart}">
+                                <i class="fa-solid fa-cart-shopping text-danger me-1"></i> 
+                                <span>Cart</span>
+                                <span class="badge bg-danger rounded-pill ms-1">🛍️</span>
+                            </a>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a class="nav-link" th:href="@{/orders/history}">
+                                <i class="fa-solid fa-box-open text-success me-1"></i> My Orders
+                            </a>
+                        </li>
+                    </th:block>
+                    
+                    <!-- Logged in User Dropdown -->
+                    <li class="nav-item dropdown ms-lg-2" th:if="${session.loggedInUserId != null}">
+                        <a class="nav-link dropdown-toggle btn btn-outline-primary px-3 py-2" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-face-smile me-1 text-warning"></i> <span th:text="${session.loggedInUsername}">User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm rounded-4 border-0">
+                            <li><a class="dropdown-item py-2" th:href="@{/users/profile}"><i class="fa-solid fa-user-astronaut text-primary me-2"></i>My Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item py-2 text-danger" th:href="@{/users/logout}"><i class="fa-solid fa-power-off me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

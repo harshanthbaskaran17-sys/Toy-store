@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE - Online Toy Store">Online Toy Store</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --pop-pink: #FF3366;
+            --pop-pink-dark: #C4164B;
+            --pop-cyan: #00C49F;
+            --pop-blue: #00B4D8;
+            --pop-yellow: #FFD166;
+            --pop-purple: #7209B7;
+            --pop-orange: #FF7B00;
+            --pop-green: #06D6A0;
+            --dark-text: #2B2D42;
+            --bg-cream: #FFFDF9;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-cream);
+            background-image: 
+                radial-gradient(circle at 8% 12%, rgba(255, 51, 102, 0.08) 0%, transparent 22%),
+                radial-gradient(circle at 92% 16%, rgba(0, 196, 159, 0.09) 0%, transparent 24%),
+                radial-gradient(circle at 50% 90%, rgba(255, 209, 102, 0.1) 0%, transparent 28%),
+                radial-gradient(circle at 90% 85%, rgba(114, 9, 183, 0.07) 0%, transparent 25%);
+            background-attachment: fixed;
+            color: var(--dark-text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6, .navbar-brand, .pop-title {
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        /* Fun Pop Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.96) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 4px solid var(--pop-yellow);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.08);
+            padding: 0.9rem 1.8rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .logo-t { color: #FF3366; }
+        .logo-o { color: #00C49F; }
+        .logo-y { color: #FFB703; }
+        .logo-s { color: #7209B7; }
+        .logo-lanka {
+            background: linear-gradient(135deg, #FF3366, #FF7B00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .nav-link {
+            font-weight: 700;
+            color: #4A4E69 !important;
+            border-radius: 20px;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--pop-pink) !important;
+            background-color: rgba(255, 51, 102, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* 3D Pop Playful Buttons */
+        .btn {
+            border-radius: 50px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF477E, #FF2A6D);
+            border: none;
+            color: white !important;
+            padding: 0.55rem 1.6rem;
+            box-shadow: 0 4px 0 var(--pop-pink-dark), 0 8px 18px rgba(255, 42, 109, 0.35);
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background: linear-gradient(135deg, #FF5E8E, #FF3879);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 var(--pop-pink-dark), 0 12px 24px rgba(255, 42, 109, 0.45);
+        }
+
+        .btn-primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 var(--pop-pink-dark), 0 4px 10px rgba(255, 42, 109, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #2EC4B6, #00A896);
+            border: none;
+            color: white !important;
+            box-shadow: 0 4px 0 #008173;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #008173;
+        }
+
+        .btn-outline-primary {
+            border: 2px solid var(--pop-pink);
+            color: var(--pop-pink);
+            font-weight: 700;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--pop-pink);
+            border-color: var(--pop-pink);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 51, 102, 0.3);
+        }
+
+        /* Kids Playful Cards */
+        .card {
+            border: 3px solid #FFF1E6;
+            border-radius: 24px;
+            background: #FFFFFF;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 36px rgba(255, 71, 126, 0.14);
+            border-color: #FFCCD5;
+        }
+
+        .toy-img-zoom {
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .toy-img-zoom {
+            transform: scale(1.08);
+        }
+
+        /* Playful Category Badges */
+        .badge-cat-educational {
+            background-color: #E0F7FA !important;
+            color: #0077B6 !important;
+            border: 2px solid #90E0EF;
+            font-weight: 700;
+        }
+
+        .badge-cat-electronic {
+            background-color: #F3E8FF !important;
+            color: #7209B7 !important;
+            border: 2px solid #D8B4FE;
+            font-weight: 700;
+        }
+
+        .badge-cat-plush {
+            background-color: #FFE5EC !important;
+            color: #FF006E !important;
+            border: 2px solid #FFB3C6;
+            font-weight: 700;
+        }
+
+        .badge-cat-non-electronic {
+            background-color: #FFF3CD !important;
+            color: #B25E00 !important;
+            border: 2px solid #FFE082;
+            font-weight: 700;
+        }
+
+        /* Playful Pop Price */
+        .pop-price {
+            background: linear-gradient(135deg, #FF3366, #FF7B00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 800;
+        }
+
+        /* Floating Bob Animation */
+        @keyframes floatToy {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        .floating-toy {
+            animation: floatToy 3.5s ease-in-out infinite;
+        }
+
+        /* Form Inputs */
+        .form-control, .form-select {
+            border-radius: 16px;
+            padding: 0.75rem 1.1rem;
+            border: 2px solid #ECEEF0;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--pop-pink);
+            box-shadow: 0 0 0 0.25rem rgba(255, 51, 102, 0.2);
+        }
+
+        /* Main and Footer */
+        main {
+            flex: 1;
+            padding: 2.2rem 0;
+        }
+
+        footer {
+            background: #FFFFFF;
+            border-top: 5px solid var(--pop-yellow);
+            padding: 3rem 0 1.5rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div th:replace="~{common/navbar :: navbar}"></div>
+
+    <main class="container">
+        <!-- Display global alerts if any -->
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div layout:fragment="content">
+            <!-- Page specific content will go here -->
+        </div>
+    </main>
+
+    <div th:replace="~{common/footer :: footer}"></div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

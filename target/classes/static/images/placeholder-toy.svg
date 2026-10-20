@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="toyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff5f5" />
+      <stop offset="100%" stop-color="#ffe3e3" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#toyGrad)" />
+  <g transform="translate(140, 50)">
+    <rect x="25" y="55" width="70" height="70" rx="14" fill="#ff6b6b" opacity="0.9" />
+    <polygon points="60,18 25,55 95,55" fill="#4ecdc4" />
+    <circle cx="60" cy="85" r="14" fill="#ffffff" />
+    <circle cx="60" cy="85" r="7" fill="#ffe66d" />
+    <polygon points="12,118 25,90 25,125" fill="#ffe66d" />
+    <polygon points="108,118 95,90 95,125" fill="#ffe66d" />
+  </g>
+  <text x="200" y="215" font-family="'Nunito', 'Segoe UI', sans-serif" font-size="20" font-weight="700" fill="#ff6b6b" text-anchor="middle">ToysLanka</text>
+  <text x="200" y="242" font-family="'Nunito', 'Segoe UI', sans-serif" font-size="13" fill="#888888" text-anchor="middle">No Toy Image Provided</text>
+</svg>

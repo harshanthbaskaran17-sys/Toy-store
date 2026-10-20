@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}">
+<head>
+    <title th:text="${toy.name + ' - ToysLanka'}">Toy Details</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb bg-white p-3 rounded-pill shadow-sm border px-4 fw-semibold">
+                <li class="breadcrumb-item"><a th:href="@{/}" class="text-decoration-none">🏠 Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/toys}" class="text-decoration-none">🧸 Toys</a></li>
+                <li class="breadcrumb-item active text-primary" aria-current="page" th:text="${toy.name}">Toy Name</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm border-0 overflow-hidden" style="border: 3px solid #FFE29A !important;">
+            <div class="card-body p-4 p-md-5">
+                <div class="row g-5 align-items-center">
+                    <!-- Left: Large Image -->
+                    <div class="col-lg-6">
+                        <div class="p-4 bg-light rounded-4 text-center d-flex align-items-center justify-content-center shadow-inner" 
+                             style="min-height: 400px; background: radial-gradient(circle, #FFFFFF 60%, #F8F9FA 100%);">
+                            <img th:src="${toy.getImageUrl()}" 
+                                 class="img-fluid rounded-4 toy-img-zoom shadow-sm" 
+                                 alt="Toy Image" 
+                                 style="max-height: 420px; width: 100%; object-fit: contain;"
+                                 onerror="this.src='/images/placeholder-toy.svg'">
+                        </div>
+                    </div>
+
+                    <!-- Right: Full Details -->
+                    <div class="col-lg-6">
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                            <span class="badge rounded-pill" 
+                                  th:classappend="${toy.category == 'Educational' ? 'badge-cat-educational' : (toy.category == 'Electronic' ? 'badge-cat-electronic' : (toy.category == 'Plush' ? 'badge-cat-plush' : 'badge-cat-non-electronic'))}"
+                                  th:text="${toy.category}">Category</span>
+                            <span class="badge bg-secondary-subtle text-secondary-emphasis border rounded-pill fw-bold">
+                                👶 Age: <span th:text="${toy.ageGroup}">3-5</span> Years
+                            </span>
+                            <span class="badge rounded-pill fw-bold" 
+                                  th:classappend="${toy.stockQuantity > 0 ? 'bg-success text-white' : 'bg-danger text-white'}"
+                                  th:text="${toy.stockQuantity > 0 ? 'In Stock (' + toy.stockQuantity + ')' : 'Out of Stock'}">
+                                Stock
+                            </span>
+                        </div>
+
+                        <h1 class="display-6 fw-bold text-dark mb-1" th:text="${toy.name}">Toy Name</h1>
+                        <p class="text-secondary fs-5 fw-semibold mb-3">By <strong class="text-dark" th:text="${toy.brand}">Brand</strong></p>
+
+                        <div class="mb-4">
+                            <span class="display-5 pop-price">Rs. <span th:text="${#numbers.formatDecimal(toy.price, 1, 2)}">0.00</span></span>
+                        </div>
+
+                        <div class="p-3 bg-light rounded-3 mb-4 border">
+                            <h6 class="fw-bold mb-2 text-dark"><i class="fa-solid fa-circle-info me-2 text-primary"></i>Toy Description & Highlights</h6>
+                            <p class="mb-0 text-secondary fw-semibold" th:text="${toy.displayDetails()}">Details</p>
+                        </div>
+
+                        <div class="alert alert-warning d-flex align-items-center mb-4 py-3 rounded-3 border-2 border-warning" role="alert">
+                            <i class="fa-solid fa-shield-halved fs-3 me-3 text-warning"></i>
+                            <div>
+                                <small class="fw-bold d-block text-dark fs-6">Safety Notice for Parents:</small>
+                                <small class="fw-semibold text-secondary" th:text="${toy.getSafetyInfo()}">Safety Details</small>
+                            </div>
+                        </div>
+
+                        <!-- Specifications table -->
+                        <table class="table table-sm table-borderless mb-4 text-muted small fw-semibold">
+                            <tbody>
+                                <tr>
+                                    <td class="text-dark fw-bold" style="width: 140px;">Product Code:</td>
+                                    <td><code class="bg-light px-2 py-1 rounded" th:text="${toy.id}">T001</code></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-dark fw-bold">Category Type:</td>
+                                    <td class="text-dark fw-bold" th:text="${toy.getToyType()}">TYPE</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-dark fw-bold">Target Age:</td>
+                                    <td><span th:text="${toy.ageGroup}"></span> Years Old</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Order Actions -->
+                        <div th:if="${session.userRole == 'REGULAR' || session.userRole == 'PREMIUM'}" class="mt-4">
+                            <form th:action="@{/orders/cart/add}" method="post" th:if="${toy.stockQuantity > 0}">
+                                <input type="hidden" name="toyId" th:value="${toy.id}">
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-auto">
+                                        <label class="col-form-label fw-bold">Quantity:</label>
+                                    </div>
+                                    <div class="col-auto" style="width: 110px;">
+                                        <input type="number" name="quantity" class="form-control text-center fw-bold fs-5" value="1" min="1" th:max="${toy.stockQuantity}">
+                                    </div>
+                                    <div class="col-auto flex-grow-1">
+                                        <button class="btn btn-primary btn-lg w-100 fs-5" type="submit">
+                                            <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <button th:if="${toy.stockQuantity == 0}" class="btn btn-secondary btn-lg w-100" disabled>
+                                Currently Out of Stock
+                            </button>
+                        </div>
+
+                        <!-- Guest prompt -->
+                        <div th:if="${session.loggedInUserId == null}" class="mt-4">
+                            <a th:href="@{/users/login}" class="btn btn-outline-primary btn-lg w-100">
+                                <i class="fa-solid fa-right-to-bracket me-2"></i> Login to Purchase
+                            </a>
+                        </div>
+
+                        <!-- Admin options -->
+                        <div th:if="${session.userRole == 'ADMIN'}" class="mt-4 pt-3 border-top d-flex gap-2">
+                            <a th:href="@{/toys/edit/{id}(id=${toy.id})}" class="btn btn-outline-primary flex-grow-1">
+                                <i class="fa-solid fa-pen-to-square me-1"></i> Edit Toy
+                            </a>
+                            <form th:action="@{/toys/delete/{id}(id=${toy.id})}" method="post" class="flex-grow-1"
+                                  onsubmit="return confirm('Are you sure you want to delete this toy?');">
+                                <button type="submit" class="btn btn-outline-danger w-100">
+                                    <i class="fa-solid fa-trash me-1"></i> Delete Toy
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-light border-0 p-3 text-start">
+                <a th:href="@{/toys}" class="btn btn-link text-decoration-none text-secondary fw-bold">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Back to All Toys
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

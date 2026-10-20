@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}">
+<head>
+    <title>Create Account - ToysLanka</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="row justify-content-center py-4">
+            <div class="col-md-7 col-lg-6">
+                <div class="card p-4 p-md-5 shadow-sm border-0" style="border: 3px solid #FFE29A !important;">
+                    <div class="text-center mb-4">
+                        <div class="fs-1 mb-2">🎪🌟</div>
+                        <h2 class="fw-bold text-dark">Join the ToysLanka Family!</h2>
+                        <p class="text-secondary fw-semibold">Sign up to buy awesome toys & track your orders</p>
+                    </div>
+                    <form th:action="@{/users/register}" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-bold"><i class="fa-solid fa-user me-1 text-primary"></i> Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Choose a friendly username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold"><i class="fa-solid fa-envelope me-1 text-primary"></i> Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="e.g. kamal@gmail.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-bold"><i class="fa-solid fa-lock me-1 text-primary"></i> Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Create a password" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold"><i class="fa-solid fa-crown me-1 text-warning"></i> Choose Membership Tier</label>
+                            <select class="form-select fw-semibold" name="membershipType">
+                                <option value="REGULAR">🎈 Regular Explorer (Free - Standard Shopping)</option>
+                                <option value="PREMIUM" selected>👑 VIP Premium Kid (Rs. 2,999/mo - 10% OFF Every Order!)</option>
+                            </select>
+                            <small class="text-muted mt-1 d-block">
+                                ⭐ <strong>VIP Premium:</strong> Save 10% on every single toy purchase across the entire store!
+                            </small>
+                        </div>
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fs-5">
+                                <i class="fa-solid fa-wand-magic-sparkles me-2"></i> Create My Account
+                            </button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="text-secondary fw-semibold mb-0">Already have an account? <a th:href="@{/users/login}" class="fw-bold text-primary text-decoration-none">Log in here!</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
